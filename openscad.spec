@@ -1,6 +1,6 @@
 Name:           openscad
 Version:        2012.10.31
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -58,6 +58,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/*
 
 %changelog
+* Thu Dec 13 2012 Adam Jackson <ajax@redhat.com> - 2012.10.31-6
+- Rebuild for glew 1.9.0
+
 * Thu Dec 06 2012 Miro Hrončok <miro@hroncok.cz> - 2012.10.31-5
 - Separated MCAD
 
