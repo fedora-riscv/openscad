@@ -8,6 +8,7 @@ License:        GPLv2 with exceptions
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
+Patch0:         %{name}-tests-cmake-glewfix.patch
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  bison >= 2.4
 BuildRequires:  flex >= 2.5.35
@@ -32,10 +33,17 @@ interested in creating computer-animated movies.
 
 %prep
 %setup -qn %{name}-%{shortversion}
+%patch0 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
 make %{?_smp_mflags}
+
+# tests
+cd tests
+cmake .
+make %{?_smp_mflags}
+cd -
 
 %install
 make install INSTALL_ROOT=%{buildroot}
@@ -48,13 +56,11 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # tests
 cd tests
-cmake . -DGLEW_INCLUDE_DIR=/usr/include/GL/
-make %{?_smp_mflags}
-ctest -C All || :
+ctest %{?_smp_mflags} -C All || : # let the tests fail, as they probably won't work in Koji
 cd -
 
 # remove MCAD (separate package) after the tests
-rm -rf /libraries/MCAD
+rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 
 %files
 %doc COPYING README.md RELEASE_NOTES
@@ -71,7 +77,7 @@ rm -rf /libraries/MCAD
 - Using  source tarball
 - Reffer to the shorter version in the app
 - Run tests
-
+- Added patch so test will compile
 * Sat Jan 19 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.01.17-1
 - New stable release 2013.01
 - Updated to respect GitHub rule
