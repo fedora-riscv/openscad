@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.01
 Version:        %{shortversion}.17
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -9,6 +9,8 @@ Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
 Patch0:         %{name}-tests-cmake-glewfix.patch
+# https://github.com/openscad/openscad/pull/268
+Patch1:         %{name}-pull268.patch
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  bison >= 2.4
 BuildRequires:  flex >= 2.5.35
@@ -34,6 +36,7 @@ interested in creating computer-animated movies.
 %prep
 %setup -qn %{name}-%{shortversion}
 %patch0 -p1
+%patch1 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
@@ -73,6 +76,9 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 %{_mandir}/man1/*
 
 %changelog
+* Sun Feb 03 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.01.17-3
+- Added fix for issue 267
+
 * Tue Jan 22 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.01.17-2
 - Using  source tarball
 - Reffer to the shorter version in the app
