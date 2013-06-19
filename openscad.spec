@@ -8,6 +8,7 @@ License:        GPLv2 with exceptions
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
+Patch0:         %{name}-stdint.patch
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  bison >= 2.4
 BuildRequires:  flex >= 2.5.35
@@ -32,6 +33,7 @@ interested in creating computer-animated movies.
 
 %prep
 %setup -qn %{name}-%{shortversion}
+%patch0 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
