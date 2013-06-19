@@ -1,16 +1,13 @@
 Name:           openscad
-%global shortversion 2013.01
-Version:        %{shortversion}.17
-Release:        6%{?dist}
+%global shortversion 2013.06
+Version:        %{shortversion}
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
-Patch0:         %{name}-tests-cmake-glewfix.patch
-# https://github.com/openscad/openscad/pull/268
-Patch1:         %{name}-pull268.patch
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  bison >= 2.4
 BuildRequires:  flex >= 2.5.35
@@ -35,8 +32,6 @@ interested in creating computer-animated movies.
 
 %prep
 %setup -qn %{name}-%{shortversion}
-%patch0 -p1
-%patch1 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
@@ -54,6 +49,9 @@ make install INSTALL_ROOT=%{buildroot}
 mkdir -p %{buildroot}%{_mandir}/man1
 cp doc/%{name}.1 %{buildroot}%{_mandir}/man1/
 
+# remove MCAD (separated package)
+rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
+
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -61,9 +59,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 cd tests
 ctest %{?_smp_mflags} -C All || : # let the tests fail, as they probably won't work in Koji
 cd -
-
-# remove MCAD (separate package) after the tests
-rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 
 %files
 %doc COPYING README.md RELEASE_NOTES
@@ -76,6 +71,10 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jun 19 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-1
+- New upstream release
+- Moved removing MCAD to %%install
+
 * Sat Feb 23 2013 Kevin Fenzi <kevin@scrye.com> - 2013.01.17-6
 - Rebuild for broken deps in rawhide
 
