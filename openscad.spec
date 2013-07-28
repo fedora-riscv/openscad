@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -73,6 +73,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Sun Jul 28 2013 Petr Machata <pmachata@redhat.com> - 2013.06-2
+- Rebuild for boost 1.54.0
+
 * Wed Jun 19 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-1
 - New upstream release
 - Moved removing MCAD to %%install
