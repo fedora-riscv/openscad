@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -25,6 +25,7 @@ BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  desktop-file-utils
 BuildRequires:  ImageMagick
+BuildRequires:  python2
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -78,6 +79,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-5
+- Require Python for tests
+
 * Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-4
 - Patch to solve upstream bug #482
 
