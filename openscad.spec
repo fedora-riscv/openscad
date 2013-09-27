@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -78,8 +78,14 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
-* Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-2
+* Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-4
 - Patch to solve upstream bug #482
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2013.06-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Sun Jul 28 2013 Petr Machata <pmachata@redhat.com> - 2013.06-2
+- Rebuild for boost 1.54.0
 
 * Wed Jun 19 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-1
 - New upstream release
