@@ -1,0 +1,15 @@
+diff --git a/src/mainwin.cc b/src/mainwin.cc
+index 95f7242..db6b252 100644
+--- a/src/mainwin.cc
++++ b/src/mainwin.cc
+@@ -1067,7 +1067,9 @@ bool MainWindow::compileTopLevelDocument(bool reload)
+ 	  // if we haven't yet compiled the current text.
+ 		else if (!editor->isContentModified()) {
+ 			QString current_doc = editor->toPlainText();
+-			if (current_doc != last_compiled_doc) shouldcompiletoplevel = true;
++			if (current_doc != last_compiled_doc && last_compiled_doc.size() == 0) {
++				shouldcompiletoplevel = true;
++			}
+ 		}
+ 	}
+ 	

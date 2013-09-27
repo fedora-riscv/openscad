@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -9,6 +9,10 @@ Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
 Patch0:         %{name}-stdint.patch
+
+# https://github.com/openscad/openscad/commit/2e21f3deff585731d5377490cde87eeccd917445
+Patch482:       %{name}-482.patch
+
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  bison >= 2.4
 BuildRequires:  flex >= 2.5.35
@@ -34,6 +38,7 @@ interested in creating computer-animated movies.
 %prep
 %setup -qn %{name}-%{shortversion}
 %patch0 -p1
+%patch482 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
@@ -73,6 +78,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-2
+- Patch to solve upstream bug #482
+
 * Wed Jun 19 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-1
 - New upstream release
 - Moved removing MCAD to %%install
