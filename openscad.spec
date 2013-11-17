@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -79,6 +79,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Sun Nov 17 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-6
+- Rebuilt for new glew
+
 * Fri Sep 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-5
 - Require Python for tests
 
