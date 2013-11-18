@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -79,6 +79,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Mon Nov 18 2013 Dave Airlie <airlied@redhat.com> - 2013.06-7
+- rebuilt for GLEW 1.10
+
 * Sun Nov 17 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-6
 - Rebuilt for new glew
 
