@@ -1,31 +1,37 @@
 Name:           openscad
 %global shortversion 2013.06
 Version:        %{shortversion}
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 License:        GPLv2 with exceptions
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
+Source1:        https://raw.github.com/%{name}/%{name}/107d19e93e9e12bfa3bf1d480b311ed718004b68/%{name}.appdata.xml
+
 Patch0:         %{name}-stdint.patch
 
 # https://github.com/openscad/openscad/commit/2e21f3deff585731d5377490cde87eeccd917445
 Patch482:       %{name}-482.patch
 
-BuildRequires:  qt-devel >= 4.4
-BuildRequires:  bison >= 2.4
-BuildRequires:  flex >= 2.5.35
-BuildRequires:  eigen2-devel >= 2.0.13
-BuildRequires:  boost-devel >= 1.3.5
-BuildRequires:  mpfr-devel >= 3.0.0
-BuildRequires:  gmp-devel >= 5.0.0
-BuildRequires:  glew-devel >= 1.6
 BuildRequires:  CGAL-devel >= 3.6
-BuildRequires:  opencsg-devel >= 1.3.2
-BuildRequires:  desktop-file-utils
 BuildRequires:  ImageMagick
+BuildRequires:  Xvfb
+BuildRequires:  bison >= 2.4
+BuildRequires:  boost-devel >= 1.3.5
+BuildRequires:  desktop-file-utils
+BuildRequires:  eigen2-devel >= 2.0.13
+BuildRequires:  flex >= 2.5.35
+BuildRequires:  glew-devel >= 1.6
+BuildRequires:  glib2-devel
+BuildRequires:  gmp-devel >= 5.0.0
+BuildRequires:  mesa-dri-drivers
+BuildRequires:  mpfr-devel >= 3.0.0
+BuildRequires:  opencsg-devel >= 1.3.2
+BuildRequires:  procps-ng
 BuildRequires:  python2
+BuildRequires:  qt-devel >= 4.4
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -53,9 +59,14 @@ cd -
 
 %install
 make install INSTALL_ROOT=%{buildroot}
+
 # manpage
 mkdir -p %{buildroot}%{_mandir}/man1
 cp doc/%{name}.1 %{buildroot}%{_mandir}/man1/
+
+# appdata
+mkdir -p %{buildroot}%{_datadir}/appdata
+cp %{SOURCE1} %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 
 # remove MCAD (separated package)
 rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
@@ -66,11 +77,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 # tests
 cd tests
 ctest %{?_smp_mflags} -C All || : # let the tests fail, as they probably won't work in Koji
+cat sysinfo.txt || :
+cat Testing/Temporary/LastTest.log || :
 cd -
 
 %files
 %doc COPYING README.md RELEASE_NOTES
 %attr(755,root,root) %{_bindir}/%{name}
+%if 0%{?fedora} < 21
+%{_datadir}/appdata
+%else
+%{_datadir}/appdata/*.xml
+%endif
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 %dir %{_datadir}/%{name}
@@ -79,6 +97,10 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Fri Dec 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-8
+- Enable Xvfb tests
+- Add AppData from upstream git
+
 * Mon Nov 18 2013 Dave Airlie <airlied@redhat.com> - 2013.06-7
 - rebuilt for GLEW 1.10
 
