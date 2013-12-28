@@ -4,7 +4,8 @@ Version:        %{shortversion}
 Release:        8%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
-License:        GPLv2 with exceptions
+# AppData is CC0
+License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
