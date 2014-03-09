@@ -1,28 +1,21 @@
 Name:           openscad
-%global shortversion 2013.06
+%global shortversion 2014.03
 Version:        %{shortversion}
-Release:        8%{?dist}
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # AppData is CC0
 License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
-Source0:        https://openscad.googlecode.com/files/%{name}-%{shortversion}.src.tar.gz
-Source1:        https://raw.github.com/%{name}/%{name}/107d19e93e9e12bfa3bf1d480b311ed718004b68/%{name}.appdata.xml
-
-Patch0:         %{name}-stdint.patch
-
-# https://github.com/openscad/openscad/commit/2e21f3deff585731d5377490cde87eeccd917445
-Patch482:       %{name}-482.patch
-
+Source0:        http://files.openscad.org/openscad-%{shortversion}.src.tar.gz
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
 BuildRequires:  bison >= 2.4
 BuildRequires:  boost-devel >= 1.3.5
 BuildRequires:  desktop-file-utils
-BuildRequires:  eigen2-devel >= 2.0.13
+BuildRequires:  eigen3-devel
 BuildRequires:  flex >= 2.5.35
 BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
@@ -45,8 +38,6 @@ interested in creating computer-animated movies.
 
 %prep
 %setup -qn %{name}-%{shortversion}
-%patch0 -p1
-%patch482 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
@@ -98,6 +89,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Sun Mar 09 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.03-1
+- New version
+
 * Fri Dec 27 2013 Miro Hrončok <mhroncok@redhat.com> - 2013.06-8
 - Enable Xvfb tests
 - Add AppData from upstream git
