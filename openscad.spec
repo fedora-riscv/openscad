@@ -52,14 +52,6 @@ cd -
 %install
 make install INSTALL_ROOT=%{buildroot}
 
-# manpage
-mkdir -p %{buildroot}%{_mandir}/man1
-cp doc/%{name}.1 %{buildroot}%{_mandir}/man1/
-
-# appdata
-mkdir -p %{buildroot}%{_datadir}/appdata
-cp %{SOURCE1} %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
-
 # remove MCAD (separated package)
 rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 
