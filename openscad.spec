@@ -9,6 +9,8 @@ License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        http://files.openscad.org/openscad-%{shortversion}.src.tar.gz
+# https://github.com/openscad/openscad/pull/698
+Patch0:         %{name}-desktop-valid.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -38,6 +40,7 @@ interested in creating computer-animated movies.
 
 %prep
 %setup -qn %{name}-%{shortversion}
+%patch0 -p1
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
