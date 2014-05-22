@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2014.03
 Version:        %{shortversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # AppData is CC0
@@ -84,6 +84,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Thu May 22 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.03-2
+- Rebuilt for opencsg 1.3.3
+
 * Sun Mar 09 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.03-1
 - New version
 
