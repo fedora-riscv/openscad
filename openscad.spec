@@ -96,25 +96,25 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 * Mon Jun 23 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.8.20140623git681f03a2
 - Update to git: 681f03a2
 
-* Wed Jun 18 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.7.20140618git48e1d6a5
+* Wed Jun 18 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.7.20140618git48e1d6a5
 - Update to git: 48e1d6a5
 
-* Tue Jun 10 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.6.20140610git05e2a1ed
+* Tue Jun 10 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.6.20140610git05e2a1ed
 - Update to git: 05e2a1ed
 
-* Sun Jun 08 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.5.20140608gitdb22a019
+* Sun Jun 08 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.5.20140608gitdb22a019
 - Update to git: db22a019
 
-* Fri Jun 06 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.4.20140606gitacd6cb1a
+* Fri Jun 06 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.4.20140606gitacd6cb1a
 - Update to git: acd6cb1a
 
-* Wed Jun 04 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.3.20140604git78803bfe
+* Wed Jun 04 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.06-0.3.20140604git78803bfe
 - Update to git: 78803bfe
 
-* Fri May 30 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.2.20140530gitca3ff7cf
+* Fri May 30 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.05-0.2.20140530gitca3ff7cf
 - Update to git: ca3ff7cf
 
-* Thu May 29 2014 Miro Hrončok <mhroncok@redhat.com> - %{shortversion}-0.1.20140529git380af79b
+* Thu May 29 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.05-0.1.20140529git380af79b
 - Update to git: 380af79b
 
 * Mon Mar 03 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.03-0.1.201400303git8635e94
