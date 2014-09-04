@@ -30,6 +30,7 @@ BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  procps-ng
 BuildRequires:  python2
 BuildRequires:  qt-devel >= 4.4
+BuildRequires:  qscintilla-devel
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
