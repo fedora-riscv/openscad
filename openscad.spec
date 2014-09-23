@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion 2014.03
 Version:        %{shortversion}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # AppData is CC0
@@ -84,6 +84,9 @@ cd -
 %{_mandir}/man1/*
 
 %changelog
+* Tue Sep 23 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.03-6
+- Rebuilt for OpenCSG 1.4.0
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.03-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
