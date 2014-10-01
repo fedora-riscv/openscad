@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion %(date +%Y).%(date +%m)
 Version:        %{shortversion}
-Release:        0.45.20141001git6d81c37e%{?dist}
+Release:        0.46.20141001git6d81c37e%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -31,6 +31,9 @@ BuildRequires:  procps-ng
 BuildRequires:  python2
 BuildRequires:  qt-devel >= 4.4
 BuildRequires:  qscintilla-devel
+Requires:       font(liberationmono)
+Requires:       font(liberationsans)
+Requires:       font(liberationserif)
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -58,6 +61,7 @@ cd -
 
 %install
 make install INSTALL_ROOT=%{buildroot}
+rm -rf %{buildroot}%{_datadir}/%{name}/fonts
 
 
 %check
@@ -88,6 +92,9 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 %{_mandir}/man1/*
 
 %changelog
+* Wed Oct 01 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.10-0.46.20141001git6d81c37e
+- Drop fonts and require them instead
+
 * Wed Oct 01 2014 Miro Hrončok <mhroncok@redhat.com> - 2014.10-0.45.20141001git6d81c37e
 - Update to git: 6d81c37e
 
