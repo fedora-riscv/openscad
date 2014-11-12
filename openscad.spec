@@ -86,9 +86,7 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/mime/packages/%{name}.xml
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/examples
-%dir %{_datadir}/%{name}/libraries
+%{_datadir}/%{name}
 %{_mandir}/man1/*
 
 %changelog
