@@ -20,6 +20,7 @@ BuildRequires:  eigen3-devel
 BuildRequires:  flex >= 2.5.35
 BuildRequires:  freetype-devel >= 2.4
 BuildRequires:  fontconfig-devel >= 2.10
+BuildRequires:  gettext
 BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
@@ -62,7 +63,7 @@ cd -
 %install
 make install INSTALL_ROOT=%{buildroot}
 rm -rf %{buildroot}%{_datadir}/%{name}/fonts
-
+%find_lang %{name}
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -75,7 +76,7 @@ cd -
 # remove MCAD (separate package) after the tests
 rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 
-%files
+%files -f %{name}.lang
 %doc COPYING README.md RELEASE_NOTES
 %attr(755,root,root) %{_bindir}/%{name}
 %if 0%{?fedora} < 21
