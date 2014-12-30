@@ -51,7 +51,7 @@ mv MCAD{-master,}
 %setup -Dqn %{name}-devel
 
 %build
-qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
+qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix} %{name}.pro
 make %{?_smp_mflags}
 
 # tests
