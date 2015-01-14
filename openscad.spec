@@ -5,8 +5,8 @@ Release:        0.108.20150114gitf32eb7e8%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
-# Some examples are CC0, some are GPLv2+, some are CC BY-SA
-License:        GPLv2 with exceptions and CC0 and GPLv2+ and CC BY-SA
+# Some examples are CC0, fractal.scad is CC BY-SA
+License:        GPLv2 with exceptions and CC0 and CC BY-SA
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        openscad-devel-f32eb7e8.tar
