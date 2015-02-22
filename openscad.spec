@@ -14,6 +14,7 @@ Group:          Applications/Engineering
 URL:            http://www.openscad.org/
 Source0:        https://github.com/%{name}/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
 Source1:        https://github.com/%{name}/MCAD/archive/%{mcommit}/MCAD-%{mcommit}.tar.gz
+Patch0:         %{name}-polyclipping.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -32,6 +33,7 @@ BuildRequires:  harfbuzz-devel >= 0.9.19
 BuildRequires:  mesa-dri-drivers
 BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
+BuildRequires:  polyclipping-devel >= 6.2.0
 BuildRequires:  procps-ng
 BuildRequires:  python2
 BuildRequires:  qt-devel >= 4.4
@@ -132,6 +134,10 @@ changes, however many things are already working.
 mv MCAD{-%{mcommit},}
 %setup -Dqn %{name}-%{commit}
 
+# Unbundle polyclipping
+rm src/polyclipping -rf
+%patch0 -p1
+
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
 make %{?_smp_mflags}
@@ -183,6 +189,7 @@ cd -
 * Sun Feb 22 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.02-0.1.RC3
 - New RC version of 2015.02
 - Build MCAD as a subpackage
+- Unbundle polyclipping
 
 * Tue Jan 27 2015 Petr Machata <pmachata@redhat.com> - 2014.03-7
 - Rebuild for boost 1.57.0
