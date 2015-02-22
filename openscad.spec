@@ -1,33 +1,44 @@
 Name:           openscad
-%global shortversion 2014.03
+%global shortversion 2015.02
 Version:        %{shortversion}
-Release:        7%{?dist}
+%global commit 54ad8c20393bc459ee4aa5f226451451f5e864d6
+%global mcommit 85794e4b4f2294a1b445a4d928866bedd5cc64ec
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+Release:        0.1.RC3%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
-# AppData is CC0
+# Appdata file is CC0
+# Examples are CC0
 License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
-Source0:        http://files.openscad.org/openscad-%{shortversion}.src.tar.gz
-# https://github.com/openscad/openscad/pull/698
-Patch0:         %{name}-desktop-valid.patch
+Source0:        https://github.com/%{name}/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
+Source1:        https://github.com/%{name}/MCAD/archive/%{mcommit}/MCAD-%{mcommit}.tar.gz
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
 BuildRequires:  bison >= 2.4
-BuildRequires:  boost-devel >= 1.3.5
+BuildRequires:  boost-devel >= 1.35
 BuildRequires:  desktop-file-utils
 BuildRequires:  eigen3-devel
 BuildRequires:  flex >= 2.5.35
+BuildRequires:  freetype-devel >= 2.4
+BuildRequires:  fontconfig-devel >= 2.10
+BuildRequires:  gettext
 BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
+BuildRequires:  harfbuzz-devel >= 0.9.19
 BuildRequires:  mesa-dri-drivers
 BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  procps-ng
 BuildRequires:  python2
 BuildRequires:  qt-devel >= 4.4
+BuildRequires:  qscintilla-devel
+Requires:       font(liberationmono)
+Requires:       font(liberationsans)
+Requires:       font(liberationserif)
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -38,9 +49,88 @@ you are looking for when you are planning to create 3D models of machine
 parts but pretty sure is not what you are looking for when you are more
 interested in creating computer-animated movies.
 
+
+###############################################
+%package        MCAD
+Summary:        OpenSCAD Parametric CAD Library
+License:        LGPLv2+ and LGPLv2 and LGPLv3+ and (GPLv3 or LGPLv2) and (GPLv3+ or LGPLv2) and (CC-BY-SA or LGPLv2+) and (CC-BY-SA or LGPLv2) and CC-BY and BSD and MIT and Public Domain
+URL:            https://www.github.com/openscad/MCAD
+Requires:       openscad
+BuildArch:      noarch
+
+%description    MCAD
+This library contains components commonly used in designing and moching up
+mechanical designs. It is currently unfinished and you can expect some API
+changes, however many things are already working.
+
+### LICENSES:
+
+##  LGPLv2+:
+#   2Dshapes.scad
+#   3d_triangle.scad
+#   fonts.scad
+#   gridbeam.scad
+#   hardware.scad
+#   libtriangles.scad
+#   multiply.scad
+#   shapes.scad
+#   screw.scad
+
+##  LGPLv2:
+#   gears.scad
+#   involute_gears.scad
+#   servos.scad
+#   transformations.scad
+#   triangles.scad
+#   unregular_shapes.scad
+#   bitmap/letter_necklace.scad
+
+##  LGPLv3+:
+#   teardrop.scad
+
+##  GPLv3 or LGPLv2:
+#   motors.scad
+#   nuts_and_bolts.scad
+
+
+##  GPLv3+ or LGPLv2:
+#   metric_fastners.scad
+#   regular_shapes.scad
+
+##  CC-BY-SA or LGPLv2+:
+#   bearing.scad
+#   materials.scad
+#   stepper.scad
+#   utilities.scad
+
+##  CC-BY-SA or LGPLv2:
+#   units.scad
+
+##  CC-BY:
+#   polyholes.scad
+#   bitmap/alphabet_block.scad
+#   bitmap/bitmap.scad
+#   bitmap/height_map.scad
+#   bitmap/name_tag.scad
+
+## BSD
+#   boxes.scad
+
+## MIT
+#   constants.scad
+#   curves.scad
+#   math.scad
+
+## Public Domain
+#   lego_compatibility.scad
+#   trochoids.scad
+
+###############################################
+
 %prep
-%setup -qn %{name}-%{shortversion}
-%patch0 -p1
+%setup -qa1 -Tcn %{name}-%{commit}/libraries
+mv MCAD{-%{mcommit},}
+%setup -Dqn %{name}-%{commit}
 
 %build
 qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
@@ -54,36 +144,46 @@ cd -
 
 %install
 make install INSTALL_ROOT=%{buildroot}
+rm -rf %{buildroot}%{_datadir}/%{name}/fonts
+%find_lang %{name}
 
-# remove MCAD (separated package)
-rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
+rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/lgpl-2.1.txt
+rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/README.markdown
+rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/TODO
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # tests
 cd tests
-ctest %{?_smp_mflags} -C All || : # let the tests fail, as they probably won't work in Koji
-cat sysinfo.txt || :
-cat Testing/Temporary/LastTest.log || :
+ctest %{?_smp_mflags} || : # let the tests fail, as they probably won't work in Koji
 cd -
 
-%files
-%doc COPYING README.md RELEASE_NOTES
+%files -f %{name}.lang
+%license COPYING
+%doc README.md RELEASE_NOTES
 %attr(755,root,root) %{_bindir}/%{name}
-%if 0%{?fedora} < 21
-%{_datadir}/appdata
-%else
 %{_datadir}/appdata/*.xml
-%endif
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
+%{_datadir}/mime/packages/%{name}.xml
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/examples
+%{_datadir}/%{name}/color-schemes
+%dir %{_datadir}/%{name}/locale
 %dir %{_datadir}/%{name}/libraries
 %{_mandir}/man1/*
 
+%files MCAD
+%license libraries/MCAD/lgpl-2.1.txt
+%doc libraries/MCAD/README.markdown libraries/MCAD/TODO
+%{_datadir}/%{name}/libraries/MCAD
+
 %changelog
+* Sun Feb 22 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.02-0.1.RC3
+- New RC version of 2015.02
+- Build MCAD as a subpackage
+
 * Tue Jan 27 2015 Petr Machata <pmachata@redhat.com> - 2014.03-7
 - Rebuild for boost 1.57.0
 
