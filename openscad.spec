@@ -4,7 +4,7 @@ Version:        %{shortversion}
 %global commit 54ad8c20393bc459ee4aa5f226451451f5e864d6
 %global mcommit 85794e4b4f2294a1b445a4d928866bedd5cc64ec
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-Release:        0.1.RC3%{?dist}
+Release:        0.2.RC3%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -186,6 +186,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Wed Feb 25 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.02-0.2.RC3
+- Rebuilt for new CGAL
+
 * Sun Feb 22 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.02-0.1.RC3
 - New RC version of 2015.02
 - Build MCAD as a subpackage
