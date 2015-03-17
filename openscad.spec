@@ -1,19 +1,14 @@
 Name:           openscad
-%global shortversion 2015.02
-Version:        %{shortversion}
-%global commit 54ad8c20393bc459ee4aa5f226451451f5e864d6
-%global mcommit 85794e4b4f2294a1b445a4d928866bedd5cc64ec
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-Release:        0.2.RC3%{?dist}
+Version:        2015.03
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
 # Examples are CC0
 License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
-URL:            http://www.openscad.org/
-Source0:        https://github.com/%{name}/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
-Source1:        https://github.com/%{name}/MCAD/archive/%{mcommit}/MCAD-%{mcommit}.tar.gz
+URL:            http://www.%{name}.org/
+Source0:        http://files.%{name}.org/%{name}-%{version}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -33,7 +28,7 @@ BuildRequires:  harfbuzz-devel >= 0.9.19
 BuildRequires:  mesa-dri-drivers
 BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
-BuildRequires:  polyclipping-devel >= 6.2.0
+BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
 BuildRequires:  python2
 BuildRequires:  qt-devel >= 4.4
@@ -130,16 +125,14 @@ changes, however many things are already working.
 ###############################################
 
 %prep
-%setup -qa1 -Tcn %{name}-%{commit}/libraries
-mv MCAD{-%{mcommit},}
-%setup -Dqn %{name}-%{commit}
+%setup -q
 
 # Unbundle polyclipping
 rm src/polyclipping -rf
 %patch0 -p1
 
 %build
-qmake-qt4 VERSION=%{shortversion} PREFIX=%{_prefix}
+qmake-qt4 VERSION=%{version} PREFIX=%{_prefix}
 make %{?_smp_mflags}
 
 # tests
@@ -186,6 +179,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Tue Mar 17 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.03-1
+- New stable version 2015.03§
+
 * Wed Feb 25 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.02-0.2.RC3
 - Rebuilt for new CGAL
 
