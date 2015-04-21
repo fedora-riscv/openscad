@@ -1,6 +1,6 @@
 Name:           openscad
 Version:        2015.03
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -31,7 +31,7 @@ BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
 BuildRequires:  python2
-BuildRequires:  qt-devel >= 4.4
+BuildRequires:  qt4-devel >= 4.4
 BuildRequires:  qscintilla-devel
 Requires:       font(liberationmono)
 Requires:       font(liberationsans)
@@ -179,6 +179,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Mon Apr 20 2015 Rex Dieter <rdieter@fedoraproject.org> 2015.03-2
+- rebuild (qscintilla), BR: qt4-devel
+
 * Tue Mar 17 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.03-1
 - New stable version 2015.03§
 
