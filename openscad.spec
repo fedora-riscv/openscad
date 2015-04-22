@@ -1,6 +1,7 @@
 Name:           openscad
-Version:        2015.03
-Release:        2%{?dist}
+Version:        2015.03.1
+%global upversion 2015.03-1
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -8,7 +9,7 @@ Summary:        The Programmers Solid 3D CAD Modeller
 License:        GPLv2 with exceptions and CC0
 Group:          Applications/Engineering
 URL:            http://www.%{name}.org/
-Source0:        http://files.%{name}.org/%{name}-%{version}.src.tar.gz
+Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -125,14 +126,14 @@ changes, however many things are already working.
 ###############################################
 
 %prep
-%setup -q
+%setup -qn %{name}-%{upversion}
 
 # Unbundle polyclipping
 rm src/polyclipping -rf
 %patch0 -p1
 
 %build
-qmake-qt4 VERSION=%{version} PREFIX=%{_prefix}
+qmake-qt4 PREFIX=%{_prefix}
 make %{?_smp_mflags}
 
 # tests
@@ -179,6 +180,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Wed Apr 22 2015 Miro Hrončok <mhroncok@redhat.com> - 2015.03.1-1
+- New upstream version 2015.03-1
+
 * Mon Apr 20 2015 Rex Dieter <rdieter@fedoraproject.org> 2015.03-2
 - rebuild (qscintilla), BR: qt4-devel
 
