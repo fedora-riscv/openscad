@@ -1,7 +1,7 @@
 Name:           openscad
 %global shortversion %(date +%Y).%(date +%m)
 Version:        %{shortversion}
-Release:        0.237.20160401git9caee5b8%{?dist}
+Release:        0.238.20160411git64e65b87%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -9,7 +9,7 @@ Summary:        The Programmers Solid 3D CAD Modeller
 License:        GPLv2 with exceptions and CC0 and CC BY-SA
 Group:          Applications/Engineering
 URL:            http://www.openscad.org/
-Source0:        openscad-devel-9caee5b8.tar
+Source0:        openscad-devel-64e65b87.tar
 Source1:        MCAD-master.zip
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -92,6 +92,9 @@ rm -rf %{buildroot}%{_datadir}/%{name}/libraries/MCAD
 %{_mandir}/man1/*
 
 %changelog
+* Mon Apr 11 2016 Miro Hrončok <mhroncok@redhat.com> - 2016.04-0.238.20160411git64e65b87
+- Update to git: 64e65b87
+
 * Fri Apr 01 2016 Miro Hrončok <mhroncok@redhat.com> - 2016.04-0.237.20160401git9caee5b8
 - Update to git: 9caee5b8
 
