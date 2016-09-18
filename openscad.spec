@@ -1,7 +1,7 @@
 Name:           openscad
-Version:        2015.03.2
-%global upversion 2015.03-2
-Release:        9%{?dist}
+Version:        2015.03.3
+%global upversion 2015.03-3
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -37,6 +37,7 @@ BuildRequires:  qscintilla-devel
 Requires:       font(liberationmono)
 Requires:       font(liberationsans)
 Requires:       font(liberationserif)
+Recommends:     %{name}-MCAD = %{version}-%{release}
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -180,6 +181,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Sun Sep 18 2016 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-1
+- New upstream version 2015.03-3
+- Recommends MCAD from the main package
+
 * Sun Sep 18 2016 Miro Hrončok <mhroncok@redhat.com> - 2015.03.2-9
 - Rebuilt for new polyclipping (#1159525)
 
