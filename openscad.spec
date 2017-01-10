@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2015.03.3
 %global upversion 2015.03-3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -181,6 +181,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Tue Jan 10 2017 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-4
+- Rebuilt for new libGLEW.so.2.0
+
 * Wed Dec 28 2016 Rich Mattes <richmattes@gmail.com> - 2015.03.3-3
 - Rebuild for eigen3-3.3.1
 
