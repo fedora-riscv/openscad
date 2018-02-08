@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2015.03.3
 %global upversion 2015.03-3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -181,6 +181,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD
 
 %changelog
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2015.03.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Tue Jan 23 2018 Jonathan Wakely <jwakely@redhat.com> - 2015.03.3-13
 - Rebuilt for Boost 1.66
 
