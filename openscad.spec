@@ -21,6 +21,7 @@ BuildRequires:  eigen3-devel
 BuildRequires:  flex >= 2.5.35
 BuildRequires:  freetype-devel >= 2.4
 BuildRequires:  fontconfig-devel >= 2.10
+BuildRequires:  gcc-c++
 BuildRequires:  gettext
 BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
