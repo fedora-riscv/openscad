@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2015.03.3
 %global upversion 2015.03-3
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -134,6 +134,18 @@ changes, however many things are already working.
 rm src/polyclipping -rf
 %patch0 -p1
 
+# Remove unwanted things from MCAD, such as nonworking Python tests
+pushd libraries/MCAD
+for FILE in *.py SolidPython ThingDoc; do
+  rm -r $FILE
+done
+mv bitmap/README bitmap-README
+popd
+
+# Tests cmake check for MCAD by probing libraries/MCAD/__init__.py
+# But we've just removed it
+sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
+
 %build
 %{qmake_qt4} PREFIX=%{_prefix}
 make %{?_smp_mflags}
@@ -149,9 +161,9 @@ make install INSTALL_ROOT=%{buildroot}
 rm -rf %{buildroot}%{_datadir}/%{name}/fonts
 %find_lang %{name}
 
-rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/lgpl-2.1.txt
-rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/README.markdown
-rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/TODO
+for FILE in lgpl-2.1.txt README.markdown TODO bitmap-README; do
+  rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/$FILE
+done
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -178,10 +190,18 @@ cd -
 
 %files MCAD
 %license libraries/MCAD/lgpl-2.1.txt
-%doc libraries/MCAD/README.markdown libraries/MCAD/TODO
-%{_datadir}/%{name}/libraries/MCAD
+%doc libraries/MCAD/README.markdown
+%doc libraries/MCAD/TODO
+%doc libraries/MCAD/bitmap-README
+%dir %{_datadir}/%{name}/libraries/MCAD
+%dir %{_datadir}/%{name}/libraries/MCAD/bitmap
+%{_datadir}/%{name}/libraries/MCAD/*.scad
+%{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu Apr 19 2018 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-15
+- Make sure what's shipped with MCAD, don't bring in python2 dependency
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2015.03.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
