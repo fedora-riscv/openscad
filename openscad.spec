@@ -32,7 +32,7 @@ BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
-BuildRequires:  python2
+BuildRequires:  python2-devel
 BuildRequires:  qt4-devel >= 4.4
 BuildRequires:  qscintilla-devel
 Requires:       font(liberationmono)
@@ -152,7 +152,7 @@ make %{?_smp_mflags}
 
 # tests
 cd tests
-cmake .
+cmake -DPYTHON_EXECUTABLE:STRING=%{__python2} .
 make %{?_smp_mflags}
 cd -
 
@@ -201,6 +201,7 @@ cd -
 %changelog
 * Thu Apr 19 2018 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-15
 - Make sure what's shipped with MCAD, don't bring in python2 dependency
+- Run the tests with python2 explicitly
 
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2015.03.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
