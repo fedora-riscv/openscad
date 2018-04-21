@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2015.03.3
 %global upversion 2015.03-3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -11,6 +11,7 @@ Group:          Applications/Engineering
 URL:            http://www.%{name}.org/
 Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
+Patch1:         %{name}-issue-1867.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -23,6 +24,7 @@ BuildRequires:  freetype-devel >= 2.4
 BuildRequires:  fontconfig-devel >= 2.10
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
+BuildRequires:  git-core
 BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
@@ -128,11 +130,10 @@ changes, however many things are already working.
 ###############################################
 
 %prep
-%setup -qn %{name}-%{upversion}
+%autosetup -n %{name}-%{upversion} -p1 -S git
 
 # Unbundle polyclipping
 rm src/polyclipping -rf
-%patch0 -p1
 
 # Remove unwanted things from MCAD, such as nonworking Python tests
 pushd libraries/MCAD
@@ -199,6 +200,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Sat Apr 21 2018 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-16
+- Fix SIGABRT (#1563897)
+
 * Thu Apr 19 2018 Miro Hrončok <mhroncok@redhat.com> - 2015.03.3-15
 - Make sure what's shipped with MCAD, don't bring in python2 dependency
 - Run the tests with python2 explicitly
