@@ -7,7 +7,6 @@ Summary:        The Programmers Solid 3D CAD Modeller
 # Appdata file is CC0
 # Examples are CC0
 License:        GPLv2 with exceptions and CC0
-Group:          Applications/Engineering
 URL:            http://www.%{name}.org/
 Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
