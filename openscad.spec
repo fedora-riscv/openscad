@@ -11,6 +11,7 @@ URL:            http://www.%{name}.org/
 Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
 Patch1:         %{name}-issue-1867.patch
+Patch2:         %{name}-boost-1.69.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
