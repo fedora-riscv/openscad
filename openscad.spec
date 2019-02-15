@@ -1,17 +1,19 @@
+%global mcadhash 5246f78d34904f728f49ea4ea30faa5041abc592
+
 Name:           openscad
-Version:        2015.03.3
-%global upversion 2015.03-3
-Release:        22%{?dist}
+Version:        2019.01~RC2
+%global upversion 2019.01-RC2
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
 # Examples are CC0
 License:        GPLv2 with exceptions and CC0
 URL:            http://www.%{name}.org/
-Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
+Source0:        https://github.com/%{name}/%{name}/archive/%{name}-%{upversion}.tar.gz
+# Source0:        http://files.%%{name}.org/%%{name}-%%{upversion}.src.tar.gz
+Source1:        https://github.com/%{name}/MCAD/archive/%{mcadhash}.zip
 Patch0:         %{name}-polyclipping.patch
-Patch1:         %{name}-issue-1867.patch
-Patch2:         %{name}-boost-1.69.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -29,14 +31,16 @@ BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
 BuildRequires:  harfbuzz-devel >= 0.9.19
+BuildRequires:  libxml2-devel
 BuildRequires:  mesa-dri-drivers
 BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  qt4-devel >= 4.4
 BuildRequires:  qscintilla-devel
+BuildRequires:  pkgconfig(libzip)
 Requires:       font(liberationmono)
 Requires:       font(liberationsans)
 Requires:       font(liberationserif)
@@ -130,14 +134,16 @@ changes, however many things are already working.
 ###############################################
 
 %prep
-%autosetup -n %{name}-%{upversion} -p1 -S git
+%autosetup -n %{name}-%{name}-%{upversion} -p1 -S git -a1
+mv MCAD-%{mcadhash}/* libraries/MCAD/
+rm -rf MCAD-%{mcadhash}
 
 # Unbundle polyclipping
-rm src/polyclipping -rf
+rm src/ext/polyclipping -rf
 
 # Remove unwanted things from MCAD, such as nonworking Python tests
 pushd libraries/MCAD
-for FILE in *.py SolidPython ThingDoc; do
+for FILE in *.py; do
   rm -r $FILE
 done
 mv bitmap/README bitmap-README
@@ -153,7 +159,7 @@ sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
 
 # tests
 cd tests
-cmake -DPYTHON_EXECUTABLE:STRING=%{__python2} .
+cmake -DPYTHON_EXECUTABLE:STRING=%{__python3} .
 %make_build
 cd -
 
@@ -176,9 +182,9 @@ cd -
 
 %files -f %{name}.lang
 %license COPYING
-%doc README.md RELEASE_NOTES
+%doc README.md RELEASE_NOTES.md
 %attr(755,root,root) %{_bindir}/%{name}
-%{_datadir}/appdata/*.xml
+%{_datadir}/metainfo/*.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/mime/packages/%{name}.xml
@@ -200,6 +206,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu Feb 28 2019 Tom Callaway <spot@fedoraproject.org> - 2019.01~RC2-1
+- 2019.01-RC2
+
 * Sun Feb 17 2019 Rex Dieter <rdieter@fedoraproject.org> - 2015.03.3-22
 - rebuild (qscintilla)
 
