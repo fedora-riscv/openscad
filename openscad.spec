@@ -154,7 +154,7 @@ popd
 sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
 
 %build
-%{qmake_qt4} PREFIX=%{_prefix}
+%{qmake_qt4} PREFIX=%{_prefix} VERSION=%{upversion}
 %make_build
 
 # tests
