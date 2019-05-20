@@ -1,8 +1,6 @@
-%global mcadhash 5246f78d34904f728f49ea4ea30faa5041abc592
-
 Name:           openscad
-Version:        2019.01~RC2
-%global upversion 2019.01-RC2
+Version:        2019.05
+%global upversion %{version}
 Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
@@ -10,9 +8,7 @@ Summary:        The Programmers Solid 3D CAD Modeller
 # Examples are CC0
 License:        GPLv2 with exceptions and CC0
 URL:            http://www.%{name}.org/
-Source0:        https://github.com/%{name}/%{name}/archive/%{name}-%{upversion}.tar.gz
-# Source0:        http://files.%%{name}.org/%%{name}-%%{upversion}.src.tar.gz
-Source1:        https://github.com/%{name}/MCAD/archive/%{mcadhash}.zip
+Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -20,6 +16,7 @@ BuildRequires:  Xvfb
 BuildRequires:  bison >= 2.4
 BuildRequires:  boost-devel >= 1.35
 BuildRequires:  desktop-file-utils
+BuildRequires:  double-conversion-devel
 BuildRequires:  eigen3-devel
 BuildRequires:  flex >= 2.5.35
 BuildRequires:  freetype-devel >= 2.4
@@ -134,9 +131,7 @@ changes, however many things are already working.
 ###############################################
 
 %prep
-%autosetup -n %{name}-%{name}-%{upversion} -p1 -S git -a1
-mv MCAD-%{mcadhash}/* libraries/MCAD/
-rm -rf MCAD-%{mcadhash}
+%autosetup -n %{name}-%{upversion} -p1 -S git
 
 # Unbundle polyclipping
 rm src/ext/polyclipping -rf
@@ -206,6 +201,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Mon May 20 2019 Jason L Tibbitts III <tibbs@math.uh.edu> - 2019.05-1
+- Update to 2019.05.
+- New build dependency double-conversion.
+
 * Thu Feb 28 2019 Tom Callaway <spot@fedoraproject.org> - 2019.01~RC2-1
 - 2019.01-RC2
 
