@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -35,8 +35,9 @@ BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
 BuildRequires:  python3-devel
-BuildRequires:  qt4-devel >= 4.4
-BuildRequires:  qscintilla-devel
+BuildRequires:  qt5-devel
+BuildRequires:  qt5-qtgamepad-devel
+BuildRequires:  qscintilla-qt5-devel
 BuildRequires:  pkgconfig(libzip)
 Requires:       font(liberationmono)
 Requires:       font(liberationsans)
@@ -149,7 +150,7 @@ popd
 sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
 
 %build
-%{qmake_qt4} PREFIX=%{_prefix} VERSION=%{upversion}
+%{qmake_qt5} PREFIX=%{_prefix} VERSION=%{upversion}
 %make_build
 
 # tests
@@ -201,6 +202,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu May 23 2019 Ivan Mironov <mironov.ivan@gmail.com> - 2019.05-2
+- Switch to Qt5 (this enables OctoPrint support)
+- Add dependency on Qt Gamepad (enables gamepad support)
+
 * Mon May 20 2019 Jason L Tibbitts III <tibbs@math.uh.edu> - 2019.05-1
 - Update to 2019.05.
 - New build dependency double-conversion.
