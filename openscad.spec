@@ -159,7 +159,7 @@ popd
 sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
 
 %build
-%{qmake_qt5} PREFIX=%{_prefix} VERSION=%{upversion}
+%{qmake_qt5} PREFIX=%{_prefix} VERSION=%{upversion} CONFIG-=debug
 %make_build
 
 # tests
@@ -213,6 +213,7 @@ cd -
 %changelog
 * Mon Jun 24 2019 Miro Hrončok <mhroncok@redhat.com> - 2019.05-3
 - Fix crash with empty imported STL/PNG (#1717625)
+- Don't build in debug mode (it impacts performance)
 
 * Thu May 23 2019 Ivan Mironov <mironov.ivan@gmail.com> - 2019.05-2
 - Switch to Qt5 (this enables OctoPrint support)
