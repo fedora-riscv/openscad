@@ -1,0 +1,206 @@
+From 87c05067f5267c9e678435c462e7b5a5a32e1f1b Mon Sep 17 00:00:00 2001
+From: Torsten Paul <Torsten.Paul@gmx.de>
+Date: Sun, 16 Jun 2019 23:02:38 +0200
+Subject: [PATCH 1/3] Have Reindexer return a const ref instead of a pointer
+ into value array.
+
+---
+ src/GeometryUtils.cc |  2 +-
+ src/GeometryUtils.h  |  2 +-
+ src/Reindexer.h      | 12 +++++++-----
+ src/export_off.cc    |  2 +-
+ src/polyset-utils.cc |  2 +-
+ 5 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/src/GeometryUtils.cc b/src/GeometryUtils.cc
+index d1a740d3ff..347164e08a 100644
+--- a/src/GeometryUtils.cc
++++ b/src/GeometryUtils.cc
+@@ -188,7 +188,7 @@ class EdgeDict {
+ 
+ 	Returns true on error, false on success.
+ */
+-bool GeometryUtils::tessellatePolygonWithHoles(const Vector3f *vertices,
++bool GeometryUtils::tessellatePolygonWithHoles(const std::vector<Vector3f>& vertices,
+ 																							 const std::vector<IndexedFace> &faces, 
+ 																							 std::vector<IndexedTriangle> &triangles,
+ 																							 const Vector3f *normal)
+diff --git a/src/GeometryUtils.h b/src/GeometryUtils.h
+index 5260b0aa61..073c41335a 100644
+--- a/src/GeometryUtils.h
++++ b/src/GeometryUtils.h
+@@ -29,7 +29,7 @@ namespace GeometryUtils {
+ 	bool tessellatePolygon(const Polygon &polygon,
+ 												 Polygons &triangles,
+ 												 const Vector3f *normal = nullptr);
+-	bool tessellatePolygonWithHoles(const Vector3f *vertices,
++	bool tessellatePolygonWithHoles(const std::vector<Vector3f>& vertices,
+ 																	const std::vector<IndexedFace> &faces, 
+ 																	std::vector<IndexedTriangle> &triangles,
+ 																	const Vector3f *normal = nullptr);
+diff --git a/src/Reindexer.h b/src/Reindexer.h
+index f9ad6bc69d..8abbd21461 100644
+--- a/src/Reindexer.h
++++ b/src/Reindexer.h
+@@ -4,6 +4,8 @@
+ #include <functional>
+ #include <vector>
+ #include <algorithm>
++#include <boost/range/adaptor/map.hpp>
++#include <boost/range/algorithm/copy.hpp>
+ #include "hash.h"
+ 
+ /*!
+@@ -39,14 +41,14 @@ class Reindexer
+   /*!
+     Return the new element array.
+   */
+-  const T *getArray() {
+-    this->vec.resize(this->map.size());
+-    typename std::unordered_map<T, int>::const_iterator iter = this->map.begin();
++  const std::vector<T>& getArray() {
++	this->vec.resize(this->map.size());
++	typename std::unordered_map<T, int>::const_iterator iter = this->map.begin();
+     while (iter != this->map.end()) {
+       this->vec[iter->second] = iter->first;
+       iter++;
+-    }
+-    return &this->vec[0];
++	}
++	return this->vec;
+   }
+ 
+   /*!
+diff --git a/src/export_off.cc b/src/export_off.cc
+index 8a74d60cd4..f18134aac8 100644
+--- a/src/export_off.cc
++++ b/src/export_off.cc
+@@ -83,7 +83,7 @@ void export_off(const shared_ptr<const Geometry> &geom, std::ostream &output)
+ 	append_geometry(geom, mesh);
+ 
+ 	output << "OFF " << mesh.vertices.size() << " " << mesh.numfaces << " 0\n";
+-	const Vector3d *v = mesh.vertices.getArray();
++	const auto v = mesh.vertices.getArray();
+ 	size_t numverts = mesh.vertices.size();
+ 	for (size_t i=0;i<numverts;i++) {
+ 		output << v[i][0] << " " << v[i][1] << " " << v[i][2] << " " << "\n";
+diff --git a/src/polyset-utils.cc b/src/polyset-utils.cc
+index 84951caba3..6f964d8186 100644
+--- a/src/polyset-utils.cc
++++ b/src/polyset-utils.cc
+@@ -78,7 +78,7 @@ namespace PolysetUtils {
+ 		}
+ 
+ 		// Tessellate indexed mesh
+-		const auto *verts = allVertices.getArray();
++		const auto verts = allVertices.getArray();
+ 		std::vector<IndexedTriangle> allTriangles;
+ 		for (const auto &faces : polygons) {
+ 			std::vector<IndexedTriangle> triangles;
+
+From 0cc0c9869079fbbd43d3c8658947b74084e83ca5 Mon Sep 17 00:00:00 2001
+From: Torsten Paul <Torsten.Paul@gmx.de>
+Date: Sun, 23 Jun 2019 17:50:53 +0200
+Subject: [PATCH 2/3] Enforce reference type to prevent copying.
+
+---
+ src/GeometryUtils.cc | 2 +-
+ src/cgalutils.cc     | 2 +-
+ src/export_off.cc    | 2 +-
+ src/polyset-utils.cc | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/GeometryUtils.cc b/src/GeometryUtils.cc
+index 347164e08a..c5919ca681 100644
+--- a/src/GeometryUtils.cc
++++ b/src/GeometryUtils.cc
+@@ -430,7 +430,7 @@ bool GeometryUtils::tessellatePolygon(const Polygon &polygon, Polygons &triangle
+ 	}
+ 	if (currface.front() == currface.back()) currface.pop_back();
+ 	if (currface.size() >= 3) { // Cull empty triangles
+-		const auto verts = uniqueVertices.getArray();
++		const auto& verts = uniqueVertices.getArray();
+ 		std::vector<IndexedTriangle> indexedtriangles;
+ 		err = tessellatePolygonWithHoles(verts, indexedfaces, indexedtriangles, normal);
+ 		for (const auto &t : indexedtriangles) {
+diff --git a/src/cgalutils.cc b/src/cgalutils.cc
+index 2f17973ee9..3885830470 100644
+--- a/src/cgalutils.cc
++++ b/src/cgalutils.cc
+@@ -316,7 +316,7 @@ namespace CGALUtils {
+ 			PRINTB("Error: Non-manifold mesh encountered: %d unconnected edges", unconnected);
+ 		}
+ 		// 3. Triangulate each face
+-		const auto verts = allVertices.getArray();
++		const auto& verts = allVertices.getArray();
+ 		std::vector<IndexedTriangle> allTriangles;
+ 		for (const auto &faces : polygons) {
+ #if 0 // For debugging
+diff --git a/src/export_off.cc b/src/export_off.cc
+index f18134aac8..b81583ac06 100644
+--- a/src/export_off.cc
++++ b/src/export_off.cc
+@@ -83,7 +83,7 @@ void export_off(const shared_ptr<const Geometry> &geom, std::ostream &output)
+ 	append_geometry(geom, mesh);
+ 
+ 	output << "OFF " << mesh.vertices.size() << " " << mesh.numfaces << " 0\n";
+-	const auto v = mesh.vertices.getArray();
++	const auto& v = mesh.vertices.getArray();
+ 	size_t numverts = mesh.vertices.size();
+ 	for (size_t i=0;i<numverts;i++) {
+ 		output << v[i][0] << " " << v[i][1] << " " << v[i][2] << " " << "\n";
+diff --git a/src/polyset-utils.cc b/src/polyset-utils.cc
+index 6f964d8186..4979d5f673 100644
+--- a/src/polyset-utils.cc
++++ b/src/polyset-utils.cc
+@@ -78,7 +78,7 @@ namespace PolysetUtils {
+ 		}
+ 
+ 		// Tessellate indexed mesh
+-		const auto verts = allVertices.getArray();
++		const auto& verts = allVertices.getArray();
+ 		std::vector<IndexedTriangle> allTriangles;
+ 		for (const auto &faces : polygons) {
+ 			std::vector<IndexedTriangle> triangles;
+
+From 95c73000b834d9b03345ec20b0e4001c36c97614 Mon Sep 17 00:00:00 2001
+From: Torsten Paul <Torsten.Paul@gmx.de>
+Date: Sun, 23 Jun 2019 21:10:52 +0200
+Subject: [PATCH 3/3] Use range based loop.
+
+---
+ src/Reindexer.h | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/src/Reindexer.h b/src/Reindexer.h
+index 8abbd21461..2688ea16bc 100644
+--- a/src/Reindexer.h
++++ b/src/Reindexer.h
+@@ -4,8 +4,6 @@
+ #include <functional>
+ #include <vector>
+ #include <algorithm>
+-#include <boost/range/adaptor/map.hpp>
+-#include <boost/range/algorithm/copy.hpp>
+ #include "hash.h"
+ 
+ /*!
+@@ -42,13 +40,11 @@ class Reindexer
+     Return the new element array.
+   */
+   const std::vector<T>& getArray() {
+-	this->vec.resize(this->map.size());
+-	typename std::unordered_map<T, int>::const_iterator iter = this->map.begin();
+-    while (iter != this->map.end()) {
+-      this->vec[iter->second] = iter->first;
+-      iter++;
+-	}
+-	return this->vec;
++    this->vec.resize(this->map.size());
++    for (const auto& entry : map) {
++      this->vec[entry.second] = entry.first;
++    }
++    return this->vec;
+   }
+ 
+   /*!

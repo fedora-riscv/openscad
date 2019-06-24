@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -10,6 +10,15 @@ License:        GPLv2 with exceptions and CC0
 URL:            http://www.%{name}.org/
 Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
+
+# Upstream backports:
+%global github  https://github.com/openscad/openscad
+
+# Crash with empty STL/PNG import
+# https://bugzilla.redhat.com/show_bug.cgi?id=1717625
+# https://github.com/openscad/openscad/issues/2965
+Patch1:         %{github}/pull/2973.patch
+
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -202,6 +211,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Mon Jun 24 2019 Miro Hrončok <mhroncok@redhat.com> - 2019.05-3
+- Fix crash with empty imported STL/PNG (#1717625)
+
 * Thu May 23 2019 Ivan Mironov <mironov.ivan@gmail.com> - 2019.05-2
 - Switch to Qt5 (this enables OctoPrint support)
 - Add dependency on Qt Gamepad (enables gamepad support)
