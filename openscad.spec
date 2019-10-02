@@ -19,6 +19,10 @@ Patch0:         %{name}-polyclipping.patch
 # https://github.com/openscad/openscad/issues/2965
 Patch1:         %{github}/pull/2973.patch
 
+# Compatibility with CGAL-5.0
+# https://github.com/openscad/openscad/pull/3083
+Patch2:         openscad-2019.05-CGAL-5.0.patch
+
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -213,6 +217,7 @@ cd -
 %changelog
 * Wed Oct 02 2019 Miro Hrončok <mhroncok@redhat.com> - 2019.05-6
 - Rebuilt for CGAL becoming header only
+- Add a patch to the QMake configuration, for CGAL 5.0
 
 * Sun Sep 22 2019 Orion Poplawski <orion@nwra.com>
 - Rebuild for double-conversion 3.1.5
