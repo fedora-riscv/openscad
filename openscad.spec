@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -215,6 +215,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Wed Oct  9 2019 Jerry James <loganjerry@gmail.com> - 2019.05-7
+- Rebuild for mpfr 4
+
 * Wed Oct 02 2019 Miro Hrončok <mhroncok@redhat.com> - 2019.05-6
 - Rebuilt for CGAL becoming header only
 - Add a patch to the QMake configuration, for CGAL 5.0
