@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -48,8 +48,9 @@ BuildRequires:  opencsg-devel >= 1.3.2
 BuildRequires:  polyclipping-devel >= 6.1.3
 BuildRequires:  procps-ng
 BuildRequires:  python3-devel
-BuildRequires:  qt5-devel
+BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtgamepad-devel
+BuildRequires:  qt5-qtmultimedia-devel
 BuildRequires:  qscintilla-qt5-devel
 BuildRequires:  pkgconfig(libzip)
 Requires:       font(liberationmono)
@@ -215,6 +216,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Tue Apr 21 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.05-10
+- Fix broken build dependency on removed qt5-devel metapackage
+
 * Sat Mar 28 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.05-9
 - Rebuilt to fix a crash on startup
 
