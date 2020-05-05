@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -57,6 +57,11 @@ Requires:       font(liberationmono)
 Requires:       font(liberationsans)
 Requires:       font(liberationserif)
 Recommends:     %{name}-MCAD = %{version}-%{release}
+
+%bcond_without 3mf
+%if %{with 3mf}
+BuildRequires:  lib3mf-devel
+%endif
 
 %description
 OpenSCAD is a software for creating solid 3D CAD objects.
@@ -216,6 +221,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Tue May 05 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.05-11
+- Add 3MF support
+
 * Tue Apr 21 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.05-10
 - Fix broken build dependency on removed qt5-devel metapackage
 
