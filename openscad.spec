@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -22,6 +22,14 @@ Patch1:         %{github}/pull/2973.patch
 # Compatibility with CGAL-5.0
 # https://github.com/openscad/openscad/pull/3083
 Patch2:         openscad-2019.05-CGAL-5.0.patch
+
+# Compatibility with Boost 1.73.0
+# https://github.com/openscad/openscad/issues/3314
+# Patch from https://github.com/gentoo/gentoo/pull/15809/files
+Patch3:         boost-1.73.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1841257
+Patch4:         openscad-missing-include.patch
 
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -222,6 +230,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 2019.05-11
+- Rebuilt and patched for Boost 1.73.0 (#1841257)
+
 * Tue Apr 21 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.05-10
 - Fix broken build dependency on removed qt5-devel metapackage
 

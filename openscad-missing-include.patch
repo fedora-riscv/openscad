@@ -1,0 +1,10 @@
+--- openscad-2019.05/src/parser.y~	2020-06-03 12:11:31.277838529 +0100
++++ openscad-2019.05/src/parser.y	2020-06-03 12:11:36.059839242 +0100
+@@ -46,6 +46,7 @@
+ #include "printutils.h"
+ #include "memory.h"
+ #include <sstream>
++#include <stack>
+ #include <boost/filesystem.hpp>
+ #include "boost-utils.h"
+ 
