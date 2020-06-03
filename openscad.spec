@@ -29,6 +29,7 @@ Patch2:         openscad-2019.05-CGAL-5.0.patch
 Patch3:         boost-1.73.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1841257
+# https://github.com/openscad/openscad/commit/b6c170cc5dd1bc677176ee732cdb0ddae57e5cf0
 Patch4:         openscad-missing-include.patch
 
 BuildRequires:  CGAL-devel >= 3.6
