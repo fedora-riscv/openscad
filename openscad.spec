@@ -32,6 +32,7 @@ Patch3:         boost-1.73.patch
 # https://github.com/openscad/openscad/commit/b6c170cc5dd1bc677176ee732cdb0ddae57e5cf0
 Patch4:         openscad-missing-include.patch
 
+BuildRequires: make
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
