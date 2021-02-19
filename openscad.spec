@@ -1,7 +1,7 @@
 Name:           openscad
-Version:        2019.05
+Version:        2021.01
 %global upversion %{version}
-Release:        14%{?dist}
+Release:        1%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -14,25 +14,8 @@ Patch0:         %{name}-polyclipping.patch
 # Upstream backports:
 %global github  https://github.com/openscad/openscad
 
-# Crash with empty STL/PNG import
-# https://bugzilla.redhat.com/show_bug.cgi?id=1717625
-# https://github.com/openscad/openscad/issues/2965
-Patch1:         %{github}/pull/2973.patch
+# ... no backports now ...
 
-# Compatibility with CGAL-5.0
-# https://github.com/openscad/openscad/pull/3083
-Patch2:         openscad-2019.05-CGAL-5.0.patch
-
-# Compatibility with Boost 1.73.0
-# https://github.com/openscad/openscad/issues/3314
-# Patch from https://github.com/gentoo/gentoo/pull/15809/files
-Patch3:         boost-1.73.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=1841257
-# https://github.com/openscad/openscad/commit/b6c170cc5dd1bc677176ee732cdb0ddae57e5cf0
-Patch4:         openscad-missing-include.patch
-
-BuildRequires: make
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
@@ -52,6 +35,7 @@ BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
 BuildRequires:  harfbuzz-devel >= 0.9.19
 BuildRequires:  libxml2-devel
+BuildRequires:  make
 BuildRequires:  mesa-dri-drivers
 BuildRequires:  mpfr-devel >= 3.0.0
 BuildRequires:  opencsg-devel >= 1.3.2
@@ -66,10 +50,10 @@ BuildRequires:  pkgconfig(libzip)
 Requires:       font(liberationmono)
 Requires:       font(liberationsans)
 Requires:       font(liberationserif)
+Requires:       hicolor-icon-theme
 Recommends:     %{name}-MCAD = %{version}-%{release}
 
-# Not ready: https://github.com/openscad/openscad/issues/3300
-%bcond_with 3mf
+%bcond_without 3mf
 %if %{with 3mf}
 BuildRequires:  lib3mf-devel
 %endif
@@ -185,7 +169,7 @@ sed -i 's@MCAD/__init__.py@MCAD/gears.scad@' tests/CMakeLists.txt
 
 # tests
 cd tests
-cmake -DPYTHON_EXECUTABLE:STRING=%{__python3} .
+cmake -DPYTHON_EXECUTABLE:STRING=%{python3} .
 %make_build
 cd -
 
@@ -194,7 +178,7 @@ make install INSTALL_ROOT=%{buildroot}
 rm -rf %{buildroot}%{_datadir}/%{name}/fonts
 %find_lang %{name}
 
-for FILE in lgpl-2.1.txt README.markdown TODO bitmap-README; do
+for FILE in .gitignore lgpl-2.1.txt README.markdown TODO bitmap-README; do
   rm %{buildroot}%{_datadir}/%{name}/libraries/MCAD/$FILE
 done
 
@@ -212,13 +196,14 @@ cd -
 %attr(755,root,root) %{_bindir}/%{name}
 %{_datadir}/metainfo/*.xml
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/mime/packages/%{name}.xml
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/examples
-%{_datadir}/%{name}/color-schemes
+%{_datadir}/%{name}/examples/
+%{_datadir}/%{name}/color-schemes/
 %dir %{_datadir}/%{name}/locale
 %dir %{_datadir}/%{name}/libraries
+%{_datadir}/%{name}/templates/
 %{_mandir}/man1/*
 
 %files MCAD
@@ -232,6 +217,11 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Fri Feb 19 2021 Miro Hrončok <mhroncok@redhat.com> - 2021.01-1
+- Update to 2021.01
+- Enable 3mf support
+- Fixes: rhbz#1904759
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2019.05-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
