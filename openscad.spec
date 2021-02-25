@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2019.05
 %global upversion %{version}
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -31,6 +31,10 @@ Patch3:         boost-1.73.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1841257
 # https://github.com/openscad/openscad/commit/b6c170cc5dd1bc677176ee732cdb0ddae57e5cf0
 Patch4:         openscad-missing-include.patch
+
+# CVE-2020-28599: Fix STL import, don't try to import partial files
+# https://github.com/openscad/openscad/pull/3611
+Patch5:         CVE-2020-28599.patch
 
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -231,6 +235,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu Feb 25 2021 Miro Hrončok <mhroncok@redhat.com> - 2019.05-13
+- Security fix for CVE-2020-28599
+- Fixes: rhbz#1932557
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.05-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
