@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -217,6 +217,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2021.01-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Fri Feb 19 2021 Miro Hrončok <mhroncok@redhat.com> - 2021.01-1
 - Update to 2021.01
 - Enable 3mf support
