@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -10,6 +10,9 @@ License:        GPLv2 with exceptions and CC0
 URL:            http://www.%{name}.org/
 Source0:        http://files.%{name}.org/%{name}-%{upversion}.src.tar.gz
 Patch0:         %{name}-polyclipping.patch
+
+# CGAL 5.3 fixes from https://github.com/openscad/openscad/pull/3844
+Patch1:         %{name}-cgal5.3.patch
 
 # Upstream backports:
 %global github  https://github.com/openscad/openscad
@@ -217,6 +220,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Mon Aug 02 2021 Miro Hrončok <mhroncok@redhat.com> - 2021.01-3
+- Rebuilt with CGAL 5.3
+- Fixes: rhbz#1987777
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2021.01-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
