@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -220,6 +220,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Thu Feb 10 2022 Orion Poplawski <orion@nwra.com> - 2021.01-6
+- Rebuild for glew 2.2
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2021.01-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
