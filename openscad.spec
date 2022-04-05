@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -21,7 +21,10 @@ Patch1:         %{name}-cgal5.3.patch
 Patch2:         %{name}-2021.01-fix-overloaded-join.patch
 # https://github.com/openscad/openscad/commit/71f2831c0484c3f35cbf44e1d1dc2c857384100b
 Patch3:         %{name}-2021.01-cgal-build-fix.patch
-
+# https://github.com/openscad/openscad/commit/770e3234cbfe66edbc0333f796b46d36a74aa652
+Patch4:         CVE-2022-0496.patch
+# https://github.com/openscad/openscad/commit/84addf3c1efbd51d8ff424b7da276400bbfa1a4b
+Patch5:         CVE-2022-0497.patch
 
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
@@ -224,6 +227,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Tue Apr 05 2022 Lumír Balhar <lbalhar@redhat.com> - 2021.01-8
+- Security fixes for CVE-2022-0496 and CVE-2022-0497
+- Fixes: rhbz#2050696 rhbz#2050700
+
 * Fri Feb 11 2022 Tom Callaway <spot@fedoraproject.org> - 2021.01-7
 - apply upstream fix for build issue with overloaded join()
 - fix build against new CGAL 5.4
