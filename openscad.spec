@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -227,6 +227,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Wed May 04 2022 Thomas Rodgers <trodgers@redhat.com> - 2021.01-9
+- Rebuilt for Boost 1.78
+
 * Tue Apr 05 2022 Lumír Balhar <lbalhar@redhat.com> - 2021.01-8
 - Security fixes for CVE-2022-0496 and CVE-2022-0497
 - Fixes: rhbz#2050696 rhbz#2050700
