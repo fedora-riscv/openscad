@@ -1,7 +1,7 @@
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -36,6 +36,7 @@ BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
 BuildRequires:  bison >= 2.4
 BuildRequires:  boost-devel >= 1.35
+BuildRequires:  cairo-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  double-conversion-devel
 BuildRequires:  eigen3-devel
@@ -232,6 +233,10 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Tue Jun 28 2022 Miro Hrončok <mhroncok@redhat.com> - 2021.01-10
+- Enable PDF export
+- Fixes: rhbz#2101338
+
 * Wed May 04 2022 Thomas Rodgers <trodgers@redhat.com> - 2021.01-9
 - Rebuilt for Boost 1.78
 
