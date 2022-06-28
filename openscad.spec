@@ -26,6 +26,11 @@ Patch4:         CVE-2022-0496.patch
 # https://github.com/openscad/openscad/commit/84addf3c1efbd51d8ff424b7da276400bbfa1a4b
 Patch5:         CVE-2022-0497.patch
 
+# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+ExcludeArch:    %{ix86}
+%endif
+
 BuildRequires:  CGAL-devel >= 3.6
 BuildRequires:  ImageMagick
 BuildRequires:  Xvfb
