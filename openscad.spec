@@ -1,7 +1,10 @@
+# test hangs on riscv64, make it skipped default.
+%bcond_with tests
+
 Name:           openscad
 Version:        2021.01
 %global upversion %{version}
-Release:        11%{?dist}
+Release:        11.rv64%{?dist}
 Summary:        The Programmers Solid 3D CAD Modeller
 # COPYING contains a linking exception for CGAL
 # Appdata file is CC0
@@ -202,9 +205,11 @@ done
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # tests
+%if %{with tests}
 cd tests
 ctest %{?_smp_mflags} || : # let the tests fail, as they probably won't work in Koji
 cd -
+%endif
 
 %files -f %{name}.lang
 %license COPYING
@@ -233,6 +238,9 @@ cd -
 %{_datadir}/%{name}/libraries/MCAD/bitmap/*.scad
 
 %changelog
+* Wed Feb 15 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 2021.01-11.rv64
+- Disable tests by default, because it hangs on riscv64.
+
 * Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2021.01-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
