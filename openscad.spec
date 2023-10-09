@@ -48,6 +48,7 @@ BuildRequires:  glew-devel >= 1.6
 BuildRequires:  glib2-devel
 BuildRequires:  gmp-devel >= 5.0.0
 BuildRequires:  harfbuzz-devel >= 0.9.19
+BuildRequires:  libspnav-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  make
 BuildRequires:  mesa-dri-drivers
